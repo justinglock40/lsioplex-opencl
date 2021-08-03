@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#description=This script updates Beignet Driver to support last Intel GPUs for Plex Container
+
+bash -c "apt update && apt -y install cmake pkg-config python ocl-icd-dev libegl1-mesa-dev ocl-icd-opencl-dev libdrm-dev libxfixes-dev libxext-dev llvm-7-dev clang-7 libclang-7-dev libtinfo-dev libedit-dev zlib1g-dev build-essential git clinfo"
+git clone --branch comet-lake https://github.com/rcombs/beignet.git
+bash -c "mkdir /beignet/build/ && cd /beignet/build && cmake -DLLVM_INSTALL_DIR=/usr/lib/llvm-7/bin .. && make -j8 && make install"
+plex rm -rf beignet
+plex bash -c "apt -y remove cmake pkg-config python ocl-icd-dev libegl1-mesa-dev ocl-icd-opencl-dev libdrm-dev libxfixes-dev libxext-dev llvm-7-dev clang-7 libclang-7-dev libtinfo-dev libedit-dev zlib1g-dev build-essential git && apt -y autoremove"
